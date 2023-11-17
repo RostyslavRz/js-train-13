@@ -479,15 +479,17 @@ console.log(getUrlData("https://username:password@example.com:8080/path"));
  * Функція повертає новий URL з відсортованими пошуковими параметрами за ключами у порядку зростання.
  */
 function sortUrlParams(url) {
-  const objUrl = new URL(url);
+  let objUrl = new URL(url);
   // Створюємо новий об'єкт URL з вхідної URL-адреси.
-  const paramArray = Array.from(objUrl.searchParams.entries());
+  let paramArray = Array.from(objUrl.searchParams.entries());
   // Отримуємо масив з ключами і значеннями параметрів за допомогою методу 'entries'.
-  paramArray.sort((a, b) => {
-    a[0] - b[0];
-  });
+  paramArray.sort((a, b) => a[0] - b[0]);
   // Сортуємо масив за ключами у порядку зростання.
+  objUrl.search = "";
   // Очищуємо пошукові параметри URL.
+  paramArray.forEach(([key, value]) => {
+    objUrl.searchParams.append(key, value);
+  });
   // Додаємо відсортовані параметри до URL.
   return objUrl.href; // Повертаємо новий URL як рядок.
 }
